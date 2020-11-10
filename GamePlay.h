@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
 #include "Draw.h"
+#include "Logic.h"
 
 using namespace std;
 using namespace sf;
@@ -16,13 +17,18 @@ using namespace sf;
 class GamePlay {
 private:
     Draw draw;
+    Logic logic;
+    vector <int> tiles_amt;
+    vector <int> player_point;
 public:
     GamePlay();
     ~GamePlay();
 
-    GamePlay(Draw draw);
-
-    void setGamePlay(RenderWindow& window, int &index, bool &check);
+    int mark = draw.getMark();
+    GamePlay(Logic logic, Draw draw, vector <int> tiles_amt);
+    void setGamePlay(RenderWindow& window, int &index, bool &check, bool &first_time_set, string &key);
+    void setGamePlayTest(RenderWindow& window, int &index, bool &check, bool &first_time_set, string &key, Draw draw, vector <int> &player_point, Logic &logic);
+    void updateTilesAmount(vector <int> &tiles_amt, int mark, int index, string key);
 };
 
 
