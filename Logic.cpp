@@ -13,15 +13,6 @@ Logic::Logic(vector<int> tiles_amt, vector <int> player_point) {
     this->player_point = player_point;
 }
 
-vector <int> Logic::getTilesAmount(int mark, int index, string key) {
-    setupTilesAmt(mark, index, key);
-    return tiles_amt;
-}
-
-bool Logic::check() {
-
-}
-
 void Logic::firstTimeSet() {
     tiles_amt.resize(13);
     for (int i = 1; i <= 12; i++){
@@ -32,15 +23,18 @@ void Logic::firstTimeSet() {
     player_point[2] = player_point[1] = 0;
 }
 
-//void Logic::getPlayerPoint(vector<int> &a) {
-//    a[1] = player_point[1];
-//    a[2] = player_point[2];
-//}
-
-void Logic::setupTilesAmt(int mark, int index, string key) {
+void Logic::setupTilesAmt(int mark, int index, string key, vector <int> &a, vector <int> &b) {
     if (key != "") {
         pickAndDropAndTake(mark, key, index);
         checkEmpty(index);
+    }
+
+    for (int i = 1; i <= 12; i++){
+        a[i] = tiles_amt[i];
+    }
+
+    for (int i = 1; i <= 2; i++){
+        b[i] = player_point[i];
     }
 }
 
@@ -75,7 +69,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
                     if (tiles_amt[1] != 0) {
                         share_amt = tiles_amt[1];
                         tiles_amt[1] = 0;
-                        cout << "\nSo hat chia tiep: " << share_amt;
                         tiles_process++;
                         if (tiles_process == 13) tiles_process = 1;
                     }
@@ -84,7 +77,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
                     if (tiles_amt[tiles_process + 1] != 0) {
                         share_amt = tiles_amt[tiles_process + 1];
                         tiles_amt[tiles_process + 1] = 0;
-                        cout << "\nSo hat chia tiep: " << share_amt;
                         tiles_process++;
                         if (tiles_process == 13) tiles_process = 1;
                     }
@@ -103,10 +95,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
             tiles_amt[add_point_pos] = 0;
         }
 
-
-
-        cout << "Diem nguoi 1: " << player_point[1] << "\n" << "Diem nguoi 2: " << player_point[2] << "\n";
-
     }
 
     // ----------------Key: Right || Index: 2 -------------------
@@ -120,7 +108,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
                     if (tiles_amt[12] != 0){
                         share_amt = tiles_amt[12];
                         tiles_amt[12] = 0;
-                        cout << "\nSo hat chia tiep: " << share_amt;
                         tiles_process--;
                         if (tiles_process == 0) tiles_process = 12;
                     }
@@ -129,7 +116,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
                     if (tiles_amt[tiles_process-1] != 0) {
                         share_amt = tiles_amt[tiles_process - 1];
                         tiles_amt[tiles_process - 1] = 0;
-                        cout << "\nSo hat chia tiep: " << share_amt;
                         tiles_process--;
                         if (tiles_process == 0) tiles_process = 12;
                     }
@@ -145,8 +131,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
             player_point[2] += tiles_amt[add_point_pos];
             tiles_amt[add_point_pos] = 0;
         }
-
-        cout << "Diem nguoi 1: " << player_point[1] << "\n" << "Diem nguoi 2: " << player_point[2] << "\n";
     }
 
     // ----------------Key: Left || Index: 1 -------------------
@@ -160,7 +144,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
                     if (tiles_amt[12] != 0){
                         share_amt = tiles_amt[12];
                         tiles_amt[12] = 0;
-                        cout << "\nSo hat chia tiep: " << share_amt;
                         tiles_process--;
                         if (tiles_process == 0) tiles_process = 12;
                     }
@@ -169,7 +152,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
                     if (tiles_amt[tiles_process-1] != 0) {
                         share_amt = tiles_amt[tiles_process - 1];
                         tiles_amt[tiles_process - 1] = 0;
-                        cout << "\nSo hat chia tiep: " << share_amt;
                         tiles_process--;
                         if (tiles_process == 0) tiles_process = 12;
                     }
@@ -185,15 +167,12 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
             player_point[1] += tiles_amt[add_point_pos];
             tiles_amt[add_point_pos] = 0;
         }
-
-        cout << "Diem nguoi 1: " << player_point[1] << "\n" << "Diem nguoi 2: " << player_point[2] << "\n";
     }
 
     // ----------------Key: Left || Index: 2 -------------------
     if (key == "left" && index == 2){
         while (share_amt--){
             tiles_process++;
-            //         cout << "\nO dang xet: " << tiles_process;
             if (tiles_process == 13) tiles_process = 1;
             tiles_amt[tiles_process]++;
             if (share_amt == 0){
@@ -201,7 +180,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
                     if (tiles_amt[1] != 0){
                         share_amt = tiles_amt[1];
                         tiles_amt[1] = 0;
-                        //   cout << "\nSo hat chia tiep: " << share_amt;
                         tiles_process++;
                         if (tiles_process == 13) tiles_process = 1;
                     }
@@ -210,8 +188,6 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
                     if (tiles_amt[tiles_process+1] != 0) {
                         share_amt = tiles_amt[tiles_process + 1];
                         tiles_amt[tiles_process + 1] = 0;
-//                            cout << "\nSo hat chia tiep: " << share_amt;
-//                            cout << "\nHat: " << tiles_process+1;
                         tiles_process++;
                         if (tiles_process == 13) tiles_process = 1;
                     }
@@ -228,9 +204,8 @@ void Logic::pickAndDropAndTake(int mark, string key, int index) {
             player_point[2] += tiles_amt[add_point_pos];
             tiles_amt[add_point_pos] = 0;
         }
-
-        cout << "Diem nguoi 1: " << player_point[1] << "\n" << "Diem nguoi 2: " << player_point[2] << "\n";
     }
+    cout << "Diem nguoi 1: " << player_point[1] << "\n" << "Diem nguoi 2: " << player_point[2] << "\n";
 }
 
 void Logic::checkEmpty(int index) {

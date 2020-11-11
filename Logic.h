@@ -24,11 +24,8 @@ public:
 
     Logic(vector <int> tiles_amt, vector <int> player_point);
     bool first_time_resize = true;
-    vector <int> getTilesAmount(int mark, int index, string key);
-    bool check();
     void firstTimeSet();
-    void getPlayerPoint(vector <int> &a);
-    void setupTilesAmt(int mark, int index, string key);
+    void setupTilesAmt(int mark, int index, string key, vector <int> &a, vector <int> &b);
     int resetTilesAmt(int mark, int index);
     void pickAndDropAndTake(int mark, string key, int index);
     void checkEmpty(int index);

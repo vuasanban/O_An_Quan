@@ -19,12 +19,15 @@ private:
     vector <Texture> t_map_list;
     vector <Sprite> map_list;
 
-    Texture t_cursor,t_background,t_soil,t_arrow;
-    Sprite cursor,background,soil,arrow;
+    Texture t_cursor,t_background,t_soil,t_arrow, t_grass;
+    Sprite cursor,background,soil,arrow,grass;
     RectangleShape picked_player;
 
     Font font;
     Text player1, player2, player1_point, player2_point;
+
+    RectangleShape menubackground;
+    Text header, play, about, out;
 
     int mark = 4;
 public:
@@ -32,12 +35,11 @@ public:
     ~Draw();
     Draw(vector < pair<float,float> > tiles_pos, vector <Texture> t_map_list, vector <Sprite> map_list,
          Texture t_cursor, Texture t_background, Texture t_soil
-         , Texture t_arrow, Sprite cursor, Sprite background, Sprite soil, Sprite arrow,
+         , Texture t_arrow, Texture t_grass, Sprite cursor, Sprite background, Sprite soil, Sprite arrow, Sprite grass,
          RectangleShape picked_player, Font font, Text player1, Text player2, Text player1_point,
-         Text player2_point, int mark);
+         Text player2_point, RectangleShape menubackground, Text header, Text play, Text about, Text out, int mark);
 
     void setTilesPosition();
-    vector < pair<float,float> > getTilesPosition();
     void loadThings();
     void drawFirstThings(RenderWindow &window);
     void drawPlayGround(RenderWindow& window, vector <int> &tiles_amt);
@@ -51,6 +53,9 @@ public:
     void drawPlayerPoint(RenderWindow& window, vector <int> &player_point);
     void drawArrow(RenderWindow& window, int &index);
     void drawWhiteTile(RenderWindow& window, int &index);
+
+    void drawMenu(RenderWindow& window, int i);
+    void drawAbout(RenderWindow& window);
 
     int getMark();
 

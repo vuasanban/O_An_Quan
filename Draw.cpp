@@ -10,9 +10,9 @@ Draw::~Draw() {}
 
 Draw::Draw(vector < pair<float,float> > tiles_pos, vector <Texture> t_map_list, vector <Sprite> map_list,
            Texture t_cursor, Texture t_background, Texture t_soil
-        , Texture t_arrow, Sprite cursor, Sprite background, Sprite soil, Sprite arrow,
+        , Texture t_arrow, Texture t_grass, Sprite cursor, Sprite background, Sprite soil, Sprite arrow, Sprite grass,
            RectangleShape picked_player, Font font, Text player1, Text player2, Text player1_point,
-           Text player2_point, int mark) {
+           Text player2_point, RectangleShape menubackground, Text header, Text play, Text about, Text out, int mark) {
     this->tiles_pos = tiles_pos;
     this->t_map_list = t_map_list;
     this->map_list = map_list;
@@ -25,11 +25,18 @@ Draw::Draw(vector < pair<float,float> > tiles_pos, vector <Texture> t_map_list, 
     this->picked_player = picked_player;
     this->t_arrow = t_arrow;
     this->arrow = arrow;
+    this->t_grass = t_grass;
+    this->grass = grass;
     this->font = font;
     this->player1 = player1;
     this->player2 = player2;
     this->player1_point = player1_point;
     this->player2_point = player2_point;
+    this->menubackground = menubackground;
+    this->header = header;
+    this->play = play;
+    this->about = about;
+    this->out = out;
     this->mark = mark;
 }
 
@@ -46,17 +53,13 @@ void Draw::setTilesPosition() {
     }
 }
 
-vector < pair<float,float> > Draw::getTilesPosition() {
-
-    return tiles_pos;
-}
-
 void Draw::loadThings() {
     t_cursor.loadFromFile("../img/cursor.png");
     t_background.loadFromFile("../img/background.png");
     t_soil.loadFromFile("../img/map/map5.png");
     t_arrow.loadFromFile("../img/arrow.png");
     t_map_list.resize(33);
+    t_grass.loadFromFile("../img/grass.png");
     t_map_list[1].loadFromFile("../img/map/map1.png");
     t_map_list[2].loadFromFile("../img/map/map2.png");
     t_map_list[3].loadFromFile("../img/map/map3.png");
@@ -95,6 +98,7 @@ void Draw::loadThings() {
     background.setTexture(t_background);
     soil.setTexture(t_soil);
     arrow.setTexture(t_arrow);
+    grass.setTexture(t_grass);
     map_list.resize(33);
     for (int i = 1; i <= 32; i++){
         map_list[i].setTexture(t_map_list[i]);
@@ -118,9 +122,11 @@ void Draw::drawPlayGround(RenderWindow &window, vector <int> &tiles_amt) {
 void Draw::drawSoil(RenderWindow &window, int amt, int i) {
     if (i >= 1 && i <= 5){
         map_list[amt].setPosition(tiles_pos[i-1].first+10.0f, tiles_pos[i-1].second+10.0f);
+        grass.setPosition(tiles_pos[i-1].first+10.0f, tiles_pos[i-1].second+10.0f);
     }
     else if (i >= 7 && i <= 11){
         map_list[amt].setPosition(tiles_pos[11-i].first+10.0f, tiles_pos[11-i].second+90.0f);
+        grass.setPosition(tiles_pos[11-i].first+10.0f, tiles_pos[11-i].second+90.0f);
     }
     else if (i == 12){
         map_list[amt].setPosition(60.0f, 200.0f);
@@ -128,6 +134,7 @@ void Draw::drawSoil(RenderWindow &window, int amt, int i) {
     else{
         map_list[amt].setPosition(580.0f, 200.0f);
     }
+//    window.draw(grass);
     window.draw(map_list[amt]);
 }
 
@@ -203,7 +210,7 @@ void Draw::drawPlayerPoint(RenderWindow &window, vector <int> &player_point) {
     window.draw(player1_point);
 
     setUpFont(player2_point);
-    player2_point.setPosition(450.0f, 400.0f);
+    player2_point.setPosition(410.0f, 400.0f);
     player2_point.setString(changeNumToString(player_point[2]));
     window.draw(player2_point);
 }
@@ -217,8 +224,8 @@ void Draw::drawArrow(RenderWindow& window, int &index) {
 void Draw::drawWhiteTile(RenderWindow &window, int &index) {
     RectangleShape white_tile;
     white_tile.setSize(Vector2f(80.0f, 80.0f));
-    if (index == 1) white_tile.setPosition(tiles_pos[mark].first, tiles_pos[mark].second);
-    else white_tile.setPosition(tiles_pos[mark].first, tiles_pos[mark].second + 80.0f);
+    if (index == 1) white_tile.setPosition(tiles_pos[mark].first+10.0f, tiles_pos[mark].second + 10.0f);
+    else white_tile.setPosition(tiles_pos[mark].first+10.0f, tiles_pos[mark].second + 90.0f);
 
     window.draw(white_tile);
 }
@@ -230,4 +237,52 @@ void Draw::setup() {
 
 int Draw::getMark() {
     return mark;
+}
+
+void Draw::drawMenu(RenderWindow &window, int i) {
+    menubackground.setFillColor(Color::White);
+    menubackground.setSize(Vector2f (720.0f, 480.0f));
+    menubackground.setPosition(0.0f, 0.0f);
+    window.draw(menubackground);
+
+    setUpFont(header);
+    header.setFillColor(Color(0, 153, 0));
+    header.setString("O   An   Quan");
+    header.setCharacterSize(90);
+    header.setPosition(150.0f, 50.0f);
+    window.draw(header);
+
+    setUpFont(play);
+    if (i == 1) play.setFillColor(Color::Red);
+    else play.setFillColor(Color::Black);
+    play.setString("Play");
+    play.setPosition(500.0f, 200.0f);
+    window.draw(play);
+
+    setUpFont(about);
+    if (i == 2) about.setFillColor(Color::Red);
+    else about.setFillColor(Color::Black);
+    about.setString("About");
+    about.setPosition(500.0f, 230.0f);
+    window.draw(about);
+
+    setUpFont(out);
+    if (i == 3) out.setFillColor(Color::Red);
+    else out.setFillColor(Color::Black);
+    out.setString("Exit");
+    out.setPosition(500.0f, 260.0f);
+    window.draw(out);
+}
+
+void Draw::drawAbout(RenderWindow &window) {
+    window.draw(menubackground);
+    about.setFillColor(Color(255, 80, 80));
+    about.setString("From    Minh    Xuan    Le    with    Luv");
+    about.setPosition(130.0f, 200.0f);
+    window.draw(about);
+
+    about.setFillColor(Color::Black);
+    about.setString("Nhan    ESC    de    tro    ve    Menu");
+    about.setPosition(400.0f, 400.0f);
+    window.draw(about);
 }
